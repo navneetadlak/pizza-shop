@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Form from "./Components/Form";
+import PizzaDashboard from "./Components/PizzaDashboard";
 
 function App() {
+  const [orders, setOrders] = useState([]);
+
+  const handleOrderPlaced = (order) => {
+    const newOrder = { ...order, id: Date.now() };
+    setOrders([...orders, newOrder]);
+  };
+
+  const handleCancelOrder = (orderId) => {
+    setOrders(orders.filter((order) => order.id !== orderId));
+  };
+
+  const handleMoveToNextStage = (orderId) => {
+    // Implement logic to move to the next stage
+  };
+
+  const handleMoveToPicked = (orderId) => {
+    // Implement logic to move to the picked stage
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Form onOrderPlaced={handleOrderPlaced} />
+      <PizzaDashboard 
+      orders={orders}
+      onCancelOrder={handleCancelOrder}
+      onMoveToNextStage={handleMoveToNextStage}
+      onMoveToPicked={handleMoveToPicked}
+      />
     </div>
   );
 }
